@@ -42,7 +42,10 @@
             name = "entrypoint";
             text = ''
               PARSED_ENVOY_CONFIG=$(${pkgs.toybox}/bin/mktemp -d)/envoy.yaml
-              ${lib.getExe pkgs.envsubst} -no-unset -no-empty -i "${./envoy.yaml}" -o "$PARSED_ENVOY_CONFIG"
+              ${lib.getExe pkgs.gomplate} \
+                --config ${./gomplate.yaml} \
+                --file ${./envoy.yaml} \
+                --out "$PARSED_ENVOY_CONFIG"
               ${lib.getExe pkgs.envoy} -c "$PARSED_ENVOY_CONFIG"
             '';
           };
