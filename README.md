@@ -5,7 +5,7 @@ This is a gRPC-Web/Connect proxy server which translates gRPC-Web or Connect req
 ## Usage
 
 ```shell
-docker run --rm -it -p 50052:50052 -e PROXY_LISTEN_PORT=50052 -e PROXY_BACKEND_PORT=50051 ghcr.io/recap-utr/grpc-proxy:latest
+docker run --rm -it -p 50052:50052 ghcr.io/recap-utr/grpc-proxy:latest PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
 ```
 
 ## Parameters

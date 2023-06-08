@@ -41,12 +41,14 @@
           entrypoint = pkgs.writeShellApplication {
             name = "entrypoint";
             text = ''
-              PARSED_ENVOY_CONFIG=$(${pkgs.toybox}/bin/mktemp -d)/envoy.yaml
-              ${lib.getExe pkgs.gomplate} \
+              PROXY_OUTDIR=$(${pkgs.toybox}/bin/mktemp -d)
+              PROXY_ENVOY_CONFIG="$PROXY_OUTDIR/envoy.yaml"
+              ${pkgs.toybox}/bin/env -i "$@" \
+                ${lib.getExe pkgs.gomplate} \
                 --config ${./gomplate.yaml} \
                 --file ${./envoy.yaml} \
-                --out "$PARSED_ENVOY_CONFIG"
-              ${lib.getExe pkgs.envoy} -c "$PARSED_ENVOY_CONFIG"
+                --out "$PROXY_ENVOY_CONFIG"
+              ${lib.getExe pkgs.envoy} -c "$PROXY_ENVOY_CONFIG"
             '';
           };
         in {
