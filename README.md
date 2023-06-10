@@ -4,8 +4,18 @@ This is a gRPC-Web/Connect proxy server which translates gRPC-Web or Connect req
 
 ## Usage
 
+### Docker (recommended)
+
 ```shell
-docker run --rm -it -p 50052:50052 ghcr.io/recap-utr/grpc-proxy:latest PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
+docker run --rm -it -p 50052:50052 ghcr.io/mirkolenz/grpc-proxy:latest PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
+```
+
+### Nix (advanced)
+
+_Note:_ Currently only works on Linux systems.
+
+```shell
+nix run github:mirkolenz/grpc-proxy -- PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
 ```
 
 ## Parameters
