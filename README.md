@@ -1,13 +1,13 @@
 # gRPC-Web/Connect Proxy
 
-This is a gRPC-Web/Connect proxy server which translates gRPC-Web or Connect requests into regular gRPC HTTP/2 requests via envoy.
+Proxy server built on envoy which translates gRPC-Web and/or Connect requests requests into regular gRPC requests.
 
 ## Usage
 
 ### Docker (recommended)
 
 ```shell
-docker run --rm -it -p 50052:50052 ghcr.io/mirkolenz/grpc-proxy:latest PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
+docker run --rm -it -p 50052:50052 ghcr.io/mirkolenz/grpc-proxy:latest PROXY_PORT=50052 BACKEND_PORT=50051
 ```
 
 ### Nix (advanced)
@@ -15,15 +15,29 @@ docker run --rm -it -p 50052:50052 ghcr.io/mirkolenz/grpc-proxy:latest PROXY_LIS
 _Note:_ Currently only works on Linux systems.
 
 ```shell
-nix run github:mirkolenz/grpc-proxy -- PROXY_LISTEN_PORT=50052 PROXY_BACKEND_PORT=50051
+nix run github:mirkolenz/grpc-proxy -- PROXY_PORT=50052 BACKEND_PORT=50051
 ```
 
 ## Parameters
 
-| Parameter               | Description                                                           | Default                |
-| ----------------------- | --------------------------------------------------------------------- | ---------------------- |
-| `PROXY_LISTEN_PORT`     | The port at which the proxy server will listen for incoming requests. | _required_             |
-| `PROXY_BACKEND_PORT`    | The port of the gRPC backend server.                                  | _required_             |
-| `PROXY_BACKEND_HOST`    | The host of the gRPC backend server.                                  | `host.docker.internal` |
-| `PROXY_BACKEND_TIMEOUT` | Time to wait for a response from the backend server.                  | `120s`                 |
-| `PROXY_ACCESS_LOG`      | The path to envoy's access log file                                   | `/dev/stdout`          |
+| Parameter         | Description                                                           | Default                                            |
+| ----------------- | --------------------------------------------------------------------- | -------------------------------------------------- |
+| `PROXY_PORT`      | The port at which the proxy server will listen for incoming requests. | _required_                                         |
+| `BACKEND_PORT`    | The port of the gRPC backend server.                                  | _required_                                         |
+| `ADMIN_PORT`      | The port of the envoy admin page.                                     | _optional_                                         |
+| `PROXY_HOST`      | The host at which the proxy server will listen for incoming requests. | `127.0.0.1` (nix), `0.0.0.0` (docker)              |
+| `BACKEND_HOST`    | The host of the gRPC backend server.                                  | `127.0.0.1` (nix), `host.docker.internal` (docker) |
+| `BACKEND_HOST`    | The host of the envoy admin page.                                     | `127.0.0.1` (nix), `0.0.0.0` (docker)              |
+| `BACKEND_TIMEOUT` | Time to wait for a response from the backend server.                  | `120s`                                             |
+| `ACCESS_LOG`      | The path to envoy's access log file                                   | `/dev/stdout`                                      |
+
+## Related Projects
+
+- [bufbuild/connect-envoy-demo](https://github.com/bufbuild/connect-envoy-demo)
+- [kilroybot/grpc-web-proxy](https://github.com/kilroybot/grpc-web-proxy)
+
+## Development
+
+The project uses Nix to manage dependencies and build the project (including the docker containers).
+Releases are automatically handled by GitHub Actions through semantic-release.
+Any kind of contribution is welcome!
