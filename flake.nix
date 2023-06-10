@@ -38,32 +38,46 @@
           default = app;
         };
         packages = let
-          entrypoint = pkgs.writeShellApplication {
-            name = "entrypoint";
-            text = ''
-              PROXY_OUTDIR=$(${pkgs.toybox}/bin/mktemp -d)
-              PROXY_ENVOY_CONFIG="$PROXY_OUTDIR/envoy.yaml"
-              ${pkgs.toybox}/bin/env -i "$@" \
-                ${lib.getExe pkgs.gomplate} \
-                --config ${./gomplate.yaml} \
-                --file ${./envoy.yaml} \
-                --out "$PROXY_ENVOY_CONFIG"
-              ${lib.getExe pkgs.envoy} -c "$PROXY_ENVOY_CONFIG"
-            '';
+          mkEntrypoint = env:
+            pkgs.writeShellApplication {
+              name = "entrypoint";
+              text = ''
+                PROXY_OUTDIR=$(${pkgs.toybox}/bin/mktemp -d)
+                PROXY_ENVOY_CONFIG="$PROXY_OUTDIR/envoy.yaml"
+
+                ${pkgs.toybox}/bin/env -i \
+                  ${builtins.toString (lib.mapAttrsToList (key: val: "${key}=${val}") env)} \
+                  "$@" \
+                  ${lib.getExe pkgs.gomplate} \
+                  --config ${./gomplate.yaml} \
+                  --file ${./envoy.yaml} \
+                  --out "$PROXY_ENVOY_CONFIG"
+
+                ${lib.getExe pkgs.envoy} -c "$PROXY_ENVOY_CONFIG"
+              '';
+            };
+          nixEntrypoint = mkEntrypoint rec {
+            PROXY_HOST = "127.0.0.1";
+            ADMIN_HOST = PROXY_HOST;
+            BACKEND_HOST = PROXY_HOST;
+          };
+          dockerEntrypoint = mkEntrypoint rec {
+            PROXY_HOST = "0.0.0.0";
+            ADMIN_HOST = PROXY_HOST;
+            BACKEND_HOST = "host.docker.internal";
           };
         in {
-          grpc-proxy = entrypoint;
-          default = entrypoint;
-          dockerImage = pkgs.dockerTools.buildImage {
+          grpc-proxy = nixEntrypoint;
+          default = nixEntrypoint;
+          dockerImage = pkgs.dockerTools.buildLayeredImage {
             name = "grpc-proxy";
             tag = "latest";
             created = "now";
-            runAsRoot = ''
-              #!${pkgs.runtimeShell}
+            extraCommands = ''
               mkdir -p tmp
             '';
             config = {
-              entrypoint = [(lib.getExe entrypoint)];
+              entrypoint = [(lib.getExe dockerEntrypoint)];
               cmd = [];
             };
           };
