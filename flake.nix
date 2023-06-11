@@ -86,7 +86,7 @@
                 )}
                 ${builtins.concatStringsSep "\n" (
                   builtins.map (
-                    tag: "${lib.getExe pkgs.buildah} manifest push --rm --all --format v2s2 grpc-proxy docker://${dockerImageName}:${tag}"
+                    tag: "${lib.getExe pkgs.buildah} manifest push --all --format v2s2 grpc-proxy docker://${dockerImageName}:${tag}"
                   )
                   tags
                 )}
