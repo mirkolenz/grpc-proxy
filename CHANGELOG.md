@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.4...v1.0.5) (2023-06-11)
+
+
+### Bug Fixes
+
+* actually build docker image in ci ([0ee549e](https://github.com/mirkolenz/grpc-proxy/commit/0ee549e15e0d61dbf950e0d06fb6fed3d8e39eaf))
+
 ## [1.0.4](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.3...v1.0.4) (2023-06-11)
 
 
