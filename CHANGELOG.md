@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.1...v1.0.2) (2023-06-11)
+
+
+### Bug Fixes
+
+* create proper multi-arch docker manifest ([3682551](https://github.com/mirkolenz/grpc-proxy/commit/3682551e509783e472f9be6c0c77b4b2ad8a9cfc))
+
 ## [1.0.1](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.0...v1.0.1) (2023-06-11)
 
 
