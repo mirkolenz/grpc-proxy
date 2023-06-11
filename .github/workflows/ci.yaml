@@ -29,5 +29,4 @@ jobs:
         if: ${{ steps.semanticrelease.outputs.released == 'true' }}
         with:
           version: ${{ steps.semanticrelease.outputs.version }}
-          build-image: false
           platforms: linux/amd64,linux/arm64
