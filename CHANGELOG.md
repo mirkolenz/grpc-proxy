@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.7...v1.0.8) (2023-06-11)
+
+
+### Bug Fixes
+
+* enable echo for docker manifest ([4fc0adc](https://github.com/mirkolenz/grpc-proxy/commit/4fc0adcd777d88bc6c976d95c25005fa4800dd6f))
+
 ## [1.0.7](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.6...v1.0.7) (2023-06-11)
 
 
