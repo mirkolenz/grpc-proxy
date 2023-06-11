@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.6...v1.0.7) (2023-06-11)
+
+
+### Bug Fixes
+
+* move from buildx to buildah for multi-arch ([af2057c](https://github.com/mirkolenz/grpc-proxy/commit/af2057ce51688ae91730a7f28725d262901f01a3))
+
 ## [1.0.6](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.5...v1.0.6) (2023-06-11)
 
 
