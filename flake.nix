@@ -53,20 +53,42 @@
           ADMIN_HOST = PROXY_HOST;
           BACKEND_HOST = "host.docker.internal";
         };
-        dockerImageName = "grpc-proxy";
-        dockerImageTags = {
-          "x86_64-linux" = "amd64";
-          "aarch64-linux" = "arm64";
-        };
-        dockerImageTag = dockerImageTags.${system};
+
+        dockerImageName = "ghcr.io/${builtins.getEnv "GITHUB_REPOSITORY"}";
+        version = builtins.getEnv "VERSION";
+        refname = builtins.getEnv "GITHUB_REF_NAME";
+        versionParts = lib.splitString "." version;
+
+        tags =
+          [refname]
+          ++ (lib.optional (builtins.elem refname ["main" "master"]) "latest")
+          ++ (lib.optional (version != "") version)
+          ++ (lib.optionals (version != "" && !lib.hasInfix "-" version) [
+            (builtins.elemAt versionParts 0)
+            (lib.concatStringsSep "." (lib.sublist 0 2 versionParts))
+          ]);
+
+        archs = ["x86_64" "aarch64"];
       in {
         apps = {
-          copyDockerImage = {
+          copyDockerManifest = {
             type = "app";
             program = lib.getExe (pkgs.writeShellApplication {
-              name = "copy-docker-image";
+              name = "copy-docker-manifest";
               text = ''
-                ${lib.getExe pkgs.docker} load -i ${self'.packages.dockerImage}
+                ${lib.getExe pkgs.buildah} manifest create grpc-proxy
+                ${builtins.concatStringsSep "\n" (
+                  builtins.map (
+                    arch: "${lib.getExe pkgs.buildah} manifest add grpc-proxy docker-archive:./docker-${arch}.tar.gz"
+                  )
+                  archs
+                )}
+                ${builtins.concatStringsSep "\n" (
+                  builtins.map (
+                    tag: "${lib.getExe pkgs.buildah} manifest push --rm --all --format v2s2 grpc-proxy docker://${dockerImageName}:${tag}"
+                  )
+                  tags
+                )}
               '';
             });
           };
@@ -79,8 +101,8 @@
           grpc-proxy = nixEntrypoint;
           default = nixEntrypoint;
           dockerImage = pkgs.dockerTools.buildLayeredImage {
-            name = dockerImageName;
-            tag = dockerImageTag;
+            name = "grpc-proxy";
+            tag = "latest";
             created = "now";
             extraCommands = ''
               mkdir -p tmp
