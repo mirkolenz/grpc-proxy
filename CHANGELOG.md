@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.2...v1.0.3) (2023-06-11)
+
+
+### Bug Fixes
+
+* log into docker registry for publishing ([13d2884](https://github.com/mirkolenz/grpc-proxy/commit/13d28842e8a1571384727ab6ecde4a674e97efab))
+
 ## [1.0.2](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.1...v1.0.2) (2023-06-11)
 
 
