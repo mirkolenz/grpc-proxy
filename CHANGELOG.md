@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.5...v1.0.6) (2023-06-11)
+
+
+### Bug Fixes
+
+* remove initial arg from dockerfile ([3591a10](https://github.com/mirkolenz/grpc-proxy/commit/3591a10313fcb10152014f23159517687b0a8380))
+
 ## [1.0.5](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.4...v1.0.5) (2023-06-11)
 
 
