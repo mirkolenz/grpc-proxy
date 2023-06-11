@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.0...v1.0.1) (2023-06-11)
+
+
+### Bug Fixes
+
+* add qemu-based aarch64 docker build ([4eba6d9](https://github.com/mirkolenz/grpc-proxy/commit/4eba6d9ede9df4bd8b9b1b9c75210e3ee285094e))
+
 ## 1.0.0 (2023-06-10)
 
 
