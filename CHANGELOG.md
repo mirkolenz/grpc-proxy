@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.3...v1.0.4) (2023-06-11)
+
+
+### Bug Fixes
+
+* use docker buildx for multi-arch images ([3109152](https://github.com/mirkolenz/grpc-proxy/commit/31091529ef7d2efa37bad2391bcc1467fc5cdbc5))
+
 ## [1.0.3](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.2...v1.0.3) (2023-06-11)
 
 
