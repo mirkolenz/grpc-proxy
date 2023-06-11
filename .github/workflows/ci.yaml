@@ -21,15 +21,13 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - uses: cihelper/action-semanticrelease-generic@v1
         id: semanticrelease
-      - uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
       - run: |
-          nix run .#copyDockerImage --impure
-          nix run .#copyDockerImage --impure --system aarch64-linux
-          nix run .#copyDockerManifest --impure
+          nix run .#copyDockerImage
+          nix run .#copyDockerImage --system aarch64-linux
         if: ${{ steps.semanticrelease.outputs.released == 'true' }}
-        env:
-          VERSION: ${{ steps.semanticrelease.outputs.version }}
+      - uses: cihelper/action-docker-publish@v1
+        if: ${{ steps.semanticrelease.outputs.released == 'true' }}
+        with:
+          version: ${{ steps.semanticrelease.outputs.version }}
+          build-image: false
+          platforms: linux/amd64,linux/arm64

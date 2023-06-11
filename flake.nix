@@ -53,38 +53,12 @@
           ADMIN_HOST = PROXY_HOST;
           BACKEND_HOST = "host.docker.internal";
         };
-
-        dockerImageName = "ghcr.io/${builtins.getEnv "GITHUB_REPOSITORY"}";
-        version = builtins.getEnv "VERSION";
-        refname = builtins.getEnv "GITHUB_REF_NAME";
-        versionParts = lib.splitString "." version;
-
-        manifest = pkgs.writeText "manifest.yaml" (builtins.toJSON {
-          image = "${dockerImageName}:${refname}";
-          tags =
-            (lib.optional (builtins.elem refname ["main" "master"]) "latest")
-            ++ (lib.optional (version != "") version)
-            ++ (lib.optionals (version != "" && !lib.hasInfix "-" version) [
-              (builtins.elemAt versionParts 0)
-              (lib.concatStringsSep "." (lib.sublist 0 2 versionParts))
-            ]);
-          manifests = [
-            {
-              image = "${dockerImageName}:${refname}-x86_64-linux";
-              platform = {
-                architecture = "amd64";
-                os = "linux";
-              };
-            }
-            {
-              image = "${dockerImageName}:${refname}-aarch64-linux";
-              platform = {
-                architecture = "arm64";
-                os = "linux";
-              };
-            }
-          ];
-        });
+        dockerImageName = "grpc-proxy";
+        dockerImageTags = {
+          "x86_64-linux" = "amd64";
+          "aarch64-linux" = "arm64";
+        };
+        dockerImageTag = dockerImageTags.${system};
       in {
         apps = {
           copyDockerImage = {
@@ -92,19 +66,7 @@
             program = lib.getExe (pkgs.writeShellApplication {
               name = "copy-docker-image";
               text = ''
-                ${lib.getExe pkgs.skopeo} --insecure-policy copy \
-                  "docker-archive:${self'.packages.dockerImage}" \
-                  "docker://${dockerImageName}:${refname}-${system}"
-              '';
-            });
-          };
-          copyDockerManifest = {
-            type = "app";
-            program = lib.getExe (pkgs.writeShellApplication {
-              name = "copy-docker-manifest";
-              text = ''
-                cat ${manifest}
-                ${lib.getExe pkgs.manifest-tool} push from-spec ${manifest}
+                ${lib.getExe pkgs.docker} load -i ${self'.packages.dockerImage}
               '';
             });
           };
@@ -117,8 +79,8 @@
           grpc-proxy = nixEntrypoint;
           default = nixEntrypoint;
           dockerImage = pkgs.dockerTools.buildLayeredImage {
-            name = "grpc-proxy";
-            tag = "latest";
+            name = dockerImageName;
+            tag = dockerImageTag;
             created = "now";
             extraCommands = ''
               mkdir -p tmp
