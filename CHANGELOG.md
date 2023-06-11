@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.9](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.8...v1.0.9) (2023-06-11)
+
+
+### Bug Fixes
+
+* do not remove manifest after upload ([3f3accf](https://github.com/mirkolenz/grpc-proxy/commit/3f3accf42ce971714ae09a93c71e8a4907889b1f))
+
 ## [1.0.8](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.7...v1.0.8) (2023-06-11)
 
 
