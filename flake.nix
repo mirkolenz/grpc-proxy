@@ -19,10 +19,6 @@
         self',
         ...
       }: let
-        app = {
-          type = "app";
-          program = lib.getExe self'.packages.default;
-        };
         mkEntrypoint = env:
           pkgs.writeShellApplication {
             name = "entrypoint";
@@ -57,19 +53,65 @@
           ADMIN_HOST = PROXY_HOST;
           BACKEND_HOST = "host.docker.internal";
         };
+
+        dockerImageName = "ghcr.io/${builtins.getEnv "GITHUB_REPOSITORY"}";
+        version = builtins.getEnv "VERSION";
+        refname = builtins.getEnv "GITHUB_REF_NAME";
+        versionParts = lib.splitString "." version;
+
+        manifest = pkgs.writeText "manifest.yaml" (builtins.toJSON {
+          image = "${dockerImageName}:${refname}";
+          tags =
+            (lib.optional (builtins.elem refname ["main" "master"]) "latest")
+            ++ (lib.optional (version != "") version)
+            ++ (lib.optionals (version != "" && !lib.hasInfix "-" version) [
+              (builtins.elemAt versionParts 0)
+              (lib.concatStringsSep "." (lib.sublist 0 2 versionParts))
+            ]);
+          manifests = [
+            {
+              image = "${dockerImageName}:${refname}-x86_64-linux";
+              platform = {
+                architecture = "amd64";
+                os = "linux";
+              };
+            }
+            {
+              image = "${dockerImageName}:${refname}-aarch64-linux";
+              platform = {
+                architecture = "arm64";
+                os = "linux";
+              };
+            }
+          ];
+        });
       in {
         apps = {
           copyDockerImage = {
             type = "app";
-            program = builtins.toString (pkgs.writeShellScript "copyDockerImage" ''
-              IFS=$'\n' # iterate over newlines
-              set -x # echo on
-              for DOCKER_TAG in $DOCKER_METADATA_OUTPUT_TAGS; do
-                ${lib.getExe pkgs.skopeo} --insecure-policy copy "docker-archive:${self'.packages.dockerImage}" "docker://$DOCKER_TAG"
-              done
-            '');
+            program = lib.getExe (pkgs.writeShellApplication {
+              name = "copy-docker-image";
+              text = ''
+                ${lib.getExe pkgs.skopeo} --insecure-policy copy \
+                  "docker-archive:${self'.packages.dockerImage}" \
+                  "docker://${dockerImageName}:${refname}-${system}"
+              '';
+            });
           };
-          default = app;
+          copyDockerManifest = {
+            type = "app";
+            program = lib.getExe (pkgs.writeShellApplication {
+              name = "copy-docker-manifest";
+              text = ''
+                cat ${manifest}
+                ${lib.getExe pkgs.manifest-tool} push from-spec ${manifest}
+              '';
+            });
+          };
+          default = {
+            type = "app";
+            program = lib.getExe self'.packages.default;
+          };
         };
         packages = {
           grpc-proxy = nixEntrypoint;
