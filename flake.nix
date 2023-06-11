@@ -64,8 +64,8 @@
           ++ (lib.optional (builtins.elem refname ["main" "master"]) "latest")
           ++ (lib.optional (version != "") version)
           ++ (lib.optionals (version != "" && !lib.hasInfix "-" version) [
-            (builtins.elemAt versionParts 0)
             (lib.concatStringsSep "." (lib.sublist 0 2 versionParts))
+            (builtins.elemAt versionParts 0)
           ]);
 
         archs = ["x86_64" "aarch64"];
@@ -76,6 +76,7 @@
             program = lib.getExe (pkgs.writeShellApplication {
               name = "copy-docker-manifest";
               text = ''
+                set -x # echo on
                 ${lib.getExe pkgs.buildah} manifest create grpc-proxy
                 ${builtins.concatStringsSep "\n" (
                   builtins.map (
