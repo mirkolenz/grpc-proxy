@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.14](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.13...v1.0.14) (2023-06-12)
+
+
+### Bug Fixes
+
+* move qemu action to top in ci ([751e1e7](https://github.com/mirkolenz/grpc-proxy/commit/751e1e7c9f2b922befd4535b5c3bde7ae00df78c))
+
 ## [1.0.13](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.12...v1.0.13) (2023-06-12)
 
 
