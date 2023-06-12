@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.15](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.14...v1.0.15) (2023-06-12)
+
+
+### Bug Fixes
+
+* add extra platforms to nix ([e5fccfd](https://github.com/mirkolenz/grpc-proxy/commit/e5fccfd5777d74f10e62ea0651b4d860705a2670))
+
 ## [1.0.14](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.13...v1.0.14) (2023-06-12)
 
 
