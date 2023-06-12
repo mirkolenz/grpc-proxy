@@ -15,6 +15,9 @@ jobs:
         with:
           platforms: arm64
       - uses: cachix/install-nix-action@v21
+        with:
+          extra_nix_config: |
+            extra-platforms = aarch64-linux
       - uses: cachix/cachix-action@v12
         with:
           name: grpc-proxy
