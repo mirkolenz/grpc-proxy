@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.11](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.10...v1.0.11) (2023-06-12)
+
+
+### Bug Fixes
+
+* use qemu instead of pkgsCross ([8d4e2dd](https://github.com/mirkolenz/grpc-proxy/commit/8d4e2ddf76e484b0fa6f84014fae0c222cef2b9c))
+
 ## [1.0.10](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.9...v1.0.10) (2023-06-12)
 
 
