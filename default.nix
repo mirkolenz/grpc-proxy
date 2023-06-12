@@ -10,7 +10,7 @@
 writeShellApplication {
   name = "entrypoint";
   text = ''
-    if [ -z "''${PROXY_PORT:-}" ] || [ -z "''${BACKEND_PORT:-}" ]; then
+    if [ $# -eq 0 ]; then
       ${coreutils}/bin/echo "The following parameters are required: PROXY_PORT, BACKEND_PORT." >&2
       ${coreutils}/bin/echo "Open the manual for details: https://github.com/mirkolenz/grpc-proxy" >&2
       exit 1
