@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.13](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.12...v1.0.13) (2023-06-12)
+
+
+### Bug Fixes
+
+* add qemu action in ci ([761f3ff](https://github.com/mirkolenz/grpc-proxy/commit/761f3ffa05baaca42629b6e14fa4a93ff01fd960))
+
 ## [1.0.12](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.11...v1.0.12) (2023-06-12)
 
 
