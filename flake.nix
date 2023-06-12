@@ -5,6 +5,7 @@
     systems.url = "github:nix-systems/default";
   };
   outputs = inputs @ {
+    self,
     nixpkgs,
     flake-parts,
     systems,
@@ -18,17 +19,21 @@
         lib,
         self',
         ...
-      }: let
-        pkgsQemu = import nixpkgs {system = "aarch64-linux";};
-      in {
+      }: {
         apps = {
-          copyDockerManifest = {
+          dockerManifest = {
             type = "app";
             program = lib.getExe (pkgs.callPackage ./docker-manifest.nix {
               branch = builtins.getEnv "GITHUB_REF_NAME";
-              images = [self'.packages.dockerImage self'.packages.dockerImageCross];
               repo = builtins.getEnv "GITHUB_REPOSITORY";
               version = builtins.getEnv "VERSION";
+              images =
+                builtins.map
+                (arch: self.packages.${arch}.dockerImage)
+                [
+                  "x86_64-linux"
+                  "aarch64-linux"
+                ];
             });
           };
           default = {
@@ -46,7 +51,6 @@
           };
           grpc-proxy = self'.packages.default;
           dockerImage = pkgs.callPackage ./docker-image.nix {};
-          dockerImageCross = pkgsQemu.callPackage ./docker-image.nix {};
         };
       };
     };
