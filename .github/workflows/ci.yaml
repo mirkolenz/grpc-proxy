@@ -11,9 +11,6 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
       - uses: cachix/install-nix-action@v21
       - uses: cachix/cachix-action@v12
         with:
@@ -26,10 +23,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - run: |
-          nix build .#dockerImage -o docker-x86_64.tar.gz
-          nix build .#dockerImage --system aarch64-linux -o docker-aarch64.tar.gz
-          nix run .#copyDockerManifest --impure
+      - run: nix run .#copyDockerManifest --impure
         if: ${{ steps.semanticrelease.outputs.released == 'true' }}
         env:
           VERSION: ${{ steps.semanticrelease.outputs.version }}
