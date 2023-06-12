@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.12](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.11...v1.0.12) (2023-06-12)
+
+
+### Bug Fixes
+
+* check for parameters was not working ([c867ce2](https://github.com/mirkolenz/grpc-proxy/commit/c867ce2b648119cacfa9e0caee9b84a4ce401ac7))
+
 ## [1.0.11](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.10...v1.0.11) (2023-06-12)
 
 
