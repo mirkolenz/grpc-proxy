@@ -18,7 +18,9 @@
         lib,
         self',
         ...
-      }: {
+      }: let
+        pkgsQemu = import nixpkgs {system = "aarch64-linux";};
+      in {
         apps = {
           copyDockerManifest = {
             type = "app";
@@ -44,7 +46,7 @@
           };
           grpc-proxy = self'.packages.default;
           dockerImage = pkgs.callPackage ./docker-image.nix {};
-          dockerImageCross = pkgs.pkgsCross.aarch64-multiplatform.callPackage ./docker-image.nix {};
+          dockerImageCross = pkgsQemu.callPackage ./docker-image.nix {};
         };
       };
     };
