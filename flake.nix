@@ -3,12 +3,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
+    flocken = {
+      url = "github:mirkolenz/flocken/v1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {
     self,
     nixpkgs,
     flake-parts,
     systems,
+    flocken,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -23,17 +28,11 @@
         apps = {
           dockerManifest = {
             type = "app";
-            program = lib.getExe (pkgs.callPackage ./docker-manifest.nix {
+            program = lib.getExe (flocken.legacyPackages.${system}.mkDockerManifest {
               branch = builtins.getEnv "GITHUB_REF_NAME";
-              repo = builtins.getEnv "GITHUB_REPOSITORY";
+              name = "ghcr.io/" + builtins.getEnv "GITHUB_REPOSITORY";
               version = builtins.getEnv "VERSION";
-              images =
-                builtins.map
-                (arch: self.packages.${arch}.dockerImage)
-                [
-                  "x86_64-linux"
-                  "aarch64-linux"
-                ];
+              images = with self.packages; [x86_64-linux.docker aarch64-linux.docker];
             });
           };
           default = {
@@ -50,7 +49,7 @@
             };
           };
           grpc-proxy = self'.packages.default;
-          dockerImage = pkgs.callPackage ./docker-image.nix {};
+          docker = pkgs.callPackage ./docker.nix {};
         };
       };
     };
