@@ -1,6 +1,6 @@
 # gRPC-Web/Connect Proxy
 
-Proxy server built on envoy which translates gRPC-Web and/or Connect requests requests into regular gRPC requests.
+Proxy server built on [envoy](https://github.com/envoyproxy/envoy) which translates [gRPC-Web](https://github.com/grpc/grpc-web) and/or [Connect](https://connect.build) requests requests into regular [gRPC](https://github.com/grpc/grpc) requests.
 
 ## Usage
 
