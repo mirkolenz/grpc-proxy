@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.16](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.15...v1.0.16) (2023-06-20)
+
+
+### Bug Fixes
+
+* allow/expose more headers ([#3](https://github.com/mirkolenz/grpc-proxy/issues/3)) ([d3d88f9](https://github.com/mirkolenz/grpc-proxy/commit/d3d88f9ca8a350b8cf4f84ba7766e9b668f07859))
+
 ## [1.0.15](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.14...v1.0.15) (2023-06-12)
 
 
