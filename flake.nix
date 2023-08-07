@@ -49,7 +49,13 @@
             };
           };
           grpc-proxy = self'.packages.default;
-          docker = pkgs.callPackage ./docker.nix {};
+          docker = pkgs.callPackage ./docker.nix {
+            env = rec {
+              PROXY_HOST = "0.0.0.0";
+              ADMIN_HOST = PROXY_HOST;
+              BACKEND_HOST = "host.docker.internal";
+            };
+          };
         };
       };
     };

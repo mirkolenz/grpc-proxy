@@ -2,17 +2,12 @@
   lib,
   dockerTools,
   callPackage,
+  env,
   ...
 }: let
-  entrypoint =
-    callPackage ./.
-    {
-      env = rec {
-        PROXY_HOST = "0.0.0.0";
-        ADMIN_HOST = PROXY_HOST;
-        BACKEND_HOST = "host.docker.internal";
-      };
-    };
+  entrypoint = callPackage ./. {
+    inherit env;
+  };
 in
   dockerTools.buildLayeredImage {
     name = "grpc-proxy";
