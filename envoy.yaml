@@ -1,11 +1,10 @@
-#< if env.Getenv "ADMIN_PORT" >#
+#<- if env.Getenv "ADMIN_PORT" >#
 admin:
   address:
     socket_address:
       address: #< .Env.ADMIN_HOST >#
       port_value: #< .Env.ADMIN_PORT >#
-#< end >#
-
+#<- end >#
 static_resources:
   listeners:
     - name: listener_0
@@ -21,12 +20,12 @@ static_resources:
                 stat_prefix: ingress_http
                 codec_type: AUTO
                 access_log:
-                  #< range (env.Getenv "ACCESS_LOG" "/dev/stdout" | strings.Split ",") >#
+                  #<- range (env.Getenv "ACCESS_LOG" "/dev/stdout" | strings.Split ",") >#
                   - name: envoy.access_loggers.file
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.access_loggers.file.v3.FileAccessLog
                       path: #< . >#
-                  #< end >#
+                  #<- end >#
                 route_config:
                   name: local_route
                   virtual_hosts:
@@ -57,27 +56,27 @@ static_resources:
                   - name: envoy.filters.http.grpc_web
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
-                  #< if and (env.Getenv "REST_SERVICES") (env.Getenv "REST_PROTO_DESCRIPTOR") >#
+                  #<- if and (env.Getenv "REST_SERVICES") (env.Getenv "REST_PROTO_DESCRIPTOR") >#
                   - name: envoy.filters.http.grpc_json_transcoder
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
                       proto_descriptor: #< $.Env.REST_PROTO_DESCRIPTOR >#
                       services:
-                        #< range (.Env.REST_SERVICES | strings.Split ",") >#
+                        #<- range (.Env.REST_SERVICES | strings.Split ",") >#
                         -  #< . >#
-                        #< end >#
+                        #<- end >#
                       print_options:
                         add_whitespace: #< env.Getenv "REST_ADD_WHITESPACE" "true" >#
                         always_print_primitive_fields: #< env.Getenv "REST_ALWAYS_PRINT_PRIMITIVE_FIELDS" "false" >#
                         always_print_enums_as_ints: #< env.Getenv "REST_ALWAYS_PRINT_ENUMS_AS_INTS" "false" >#
                         preserve_proto_field_names: #< env.Getenv "REST_PRESERVE_PROTO_FIELD_NAMES" "false" >#
                         stream_newline_delimited: #< env.Getenv "REST_STREAM_NEWLINE_DELIMITED" "false" >#
-                      #< if env.Getenv "REST_IGNORED_QUERY_PARAMETERS" >#
+                      #<- if env.Getenv "REST_IGNORED_QUERY_PARAMETERS" >#
                       ignored_query_parameters:
-                        #< range (.Env.REST_IGNORED_QUERY_PARAMETERS | strings.Split ",") >#
+                        #<- range (.Env.REST_IGNORED_QUERY_PARAMETERS | strings.Split ",") >#
                         -  #< . >#
-                        #< end >#
-                      #< end >#
+                        #<- end >#
+                      #<- end >#
                       request_validation_options:
                         reject_unknown_method: #< env.Getenv "REST_REJECT_UNKNOWN_METHOD" "false" >#
                         reject_unknown_query_parameters: #< env.Getenv "REST_REJECT_UNKNOWN_QUERY_PARAMETERS" "false" >#
@@ -91,7 +90,7 @@ static_resources:
                       case_insensitive_enum_parsing: #< env.Getenv "REST_CASE_INSENSITIVE_ENUM_PARSING" "false" >#
                       # max_request_body_size: #< env.Getenv "REST_MAX_REQUEST_BODY_SIZE" "0" >#
                       # max_response_body_size: #< env.Getenv "REST_MAX_RESPONSE_BODY_SIZE" "0" >#
-                  #< end >#
+                  #<- end >#
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
@@ -105,13 +104,13 @@ static_resources:
         cluster_name: service_0
         endpoints:
           - lb_endpoints:
-              #< range (.Env.BACKEND_PORT | strings.Split ",") >#
+              #<- range (.Env.BACKEND_PORT | strings.Split ",") >#
               - endpoint:
                   address:
                     socket_address:
                       address: #< $.Env.BACKEND_HOST >#
                       port_value: #< . >#
-              #< end >#
+              #<- end >#
       typed_extension_protocol_options:
         envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
           "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
