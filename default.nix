@@ -27,6 +27,9 @@ writeShellApplication {
       --file ${./envoy.yaml} \
       --out "$PROXY_ENVOY_CONFIG"
 
+    ${coreutils}/bin/echo "Starting Envoy with the following configuration:"
+    ${coreutils}/bin/cat "$PROXY_ENVOY_CONFIG"
+
     ${lib.getExe envoy} -c "$PROXY_ENVOY_CONFIG"
   '';
 }
