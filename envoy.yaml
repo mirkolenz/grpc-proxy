@@ -21,10 +21,12 @@ static_resources:
                 stat_prefix: ingress_http
                 codec_type: AUTO
                 access_log:
+                  #< range (env.Getenv "ACCESS_LOG" "/dev/stdout" | strings.Split ",") >#
                   - name: envoy.access_loggers.file
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.access_loggers.file.v3.FileAccessLog
-                      path: #< env.Getenv "ACCESS_LOG" "/dev/stdout" >#
+                      path: #< . >#
+                  #< end >#
                 route_config:
                   name: local_route
                   virtual_hosts:
