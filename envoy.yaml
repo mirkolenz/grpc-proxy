@@ -57,6 +57,41 @@ static_resources:
                   - name: envoy.filters.http.grpc_web
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
+                  #< if and (env.Getenv "REST_SERVICES") (env.Getenv "REST_PROTO_DESCRIPTOR") >#
+                  - name: envoy.filters.http.grpc_json_transcoder
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+                      proto_descriptor: #< $.Env.REST_PROTO_DESCRIPTOR >#
+                      services:
+                        #< range (.Env.REST_SERVICES | strings.Split ",") >#
+                        -  #< . >#
+                        #< end >#
+                      print_options:
+                        add_whitespace: #< env.Getenv "REST_ADD_WHITESPACE" "true" >#
+                        always_print_primitive_fields: #< env.Getenv "REST_ALWAYS_PRINT_PRIMITIVE_FIELDS" "false" >#
+                        always_print_enums_as_ints: #< env.Getenv "REST_ALWAYS_PRINT_ENUMS_AS_INTS" "false" >#
+                        preserve_proto_field_names: #< env.Getenv "REST_PRESERVE_PROTO_FIELD_NAMES" "false" >#
+                        stream_newline_delimited: #< env.Getenv "REST_STREAM_NEWLINE_DELIMITED" "false" >#
+                      #< if env.Getenv "REST_IGNORED_QUERY_PARAMETERS" >#
+                      ignored_query_parameters:
+                        #< range (.Env.REST_IGNORED_QUERY_PARAMETERS | strings.Split ",") >#
+                        -  #< . >#
+                        #< end >#
+                      #< end >#
+                      request_validation_options:
+                        reject_unknown_method: #< env.Getenv "REST_REJECT_UNKNOWN_METHOD" "false" >#
+                        reject_unknown_query_parameters: #< env.Getenv "REST_REJECT_UNKNOWN_QUERY_PARAMETERS" "false" >#
+                        reject_binding_body_field_collisions: #< env.Getenv "REST_REJECT_BINDING_BODY_FIELD_COLLISIONS" "false" >#
+                      auto_mapping: #< env.Getenv "REST_AUTO_MAPPING" "true" >#
+                      ignore_unknown_query_parameters: #< env.Getenv "REST_IGNORE_UNKNOWN_QUERY_PARAMETERS" "false" >#
+                      convert_grpc_status: #< env.Getenv "REST_CONVERT_GRPC_STATUS" "false" >#
+                      url_unescape_spec: #< env.Getenv "REST_URL_UNESCAPE_SPEC" "ALL_CHARACTERS_EXCEPT_RESERVED" >#
+                      query_param_unescape_plus: #< env.Getenv "REST_QUERY_PARAM_UNESCAPE_PLUS" "false" >#
+                      match_unregistered_custom_verb: #< env.Getenv "REST_MATCH_UNREGISTERED_CUSTOM_VERB" "false" >#
+                      case_insensitive_enum_parsing: #< env.Getenv "REST_CASE_INSENSITIVE_ENUM_PARSING" "false" >#
+                      # max_request_body_size: #< env.Getenv "REST_MAX_REQUEST_BODY_SIZE" "0" >#
+                      # max_response_body_size: #< env.Getenv "REST_MAX_RESPONSE_BODY_SIZE" "0" >#
+                  #< end >#
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
