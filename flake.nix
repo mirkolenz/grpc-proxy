@@ -43,17 +43,17 @@
         packages = {
           default = pkgs.callPackage ./. {
             env = rec {
-              PROXY_HOST = "127.0.0.1";
-              ADMIN_HOST = PROXY_HOST;
-              BACKEND_HOST = PROXY_HOST;
+              proxy_host = "127.0.0.1";
+              admin_host = proxy_host;
+              backend_host = proxy_host;
             };
           };
           grpc-proxy = self'.packages.default;
           docker = pkgs.callPackage ./docker.nix {
             env = rec {
-              PROXY_HOST = "0.0.0.0";
-              ADMIN_HOST = PROXY_HOST;
-              BACKEND_HOST = "host.docker.internal";
+              proxy_host = "0.0.0.0";
+              admin_host = proxy_host;
+              backend_host = "host.docker.internal";
             };
           };
         };
