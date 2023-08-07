@@ -22,7 +22,7 @@ writeShellApplication {
     ${coreutils}/bin/env --ignore-environment \
       ${builtins.toString (lib.mapAttrsToList (key: val: "${key}=${val}") env)} \
       "$@" \
-      ${lib.getExe gomplate} \
+      ${lib.getBin gomplate}/bin/gomplate \
       --config ${./gomplate.yaml} \
       --file ${./envoy.yaml} \
       --out "$proxy_config"
@@ -31,6 +31,6 @@ writeShellApplication {
     ${coreutils}/bin/cat "$proxy_config"
 
     ${coreutils}/bin/echo "Starting envoy..."
-    ${lib.getExe envoy} -c "$proxy_config"
+    ${lib.getBin envoy}/bin/envoy -c "$proxy_config"
   '';
 }
