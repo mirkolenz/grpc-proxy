@@ -27,7 +27,7 @@ nix run github:mirkolenz/grpc-proxy -- PROXY_PORT=50052 BACKEND_PORT=50051
 | `ADMIN_PORT`      | The port of the envoy admin page.                                     | _optional_                                         |
 | `PROXY_HOST`      | The host at which the proxy server will listen for incoming requests. | `127.0.0.1` (nix), `0.0.0.0` (docker)              |
 | `BACKEND_HOST`    | The host of the gRPC backend server.                                  | `127.0.0.1` (nix), `host.docker.internal` (docker) |
-| `BACKEND_HOST`    | The host of the envoy admin page.                                     | `127.0.0.1` (nix), `0.0.0.0` (docker)              |
+| `ADMIN_HOST`      | The host of the envoy admin page.                                     | `127.0.0.1` (nix), `0.0.0.0` (docker)              |
 | `BACKEND_TIMEOUT` | Time to wait for a response from the backend server.                  | `120s`                                             |
 | `ACCESS_LOG`      | The path to envoy's access log file                                   | `/dev/stdout`                                      |
 
