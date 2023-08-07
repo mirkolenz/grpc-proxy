@@ -59,7 +59,7 @@ static_resources:
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
-    #< range (.Env.BACKEND_PORT | strings.Split ",")  >#
+    #< range (.Env.BACKEND_PORT | strings.Split ",") >#
     - name: service_0
       connect_timeout: 0.25s
       type: STRICT_DNS
