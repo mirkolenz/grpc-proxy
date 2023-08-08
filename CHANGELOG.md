@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.0](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.16...v2.0.0) (2023-08-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* The parameters/options passed to the app should now be lowercased. That change should make it easier and faster to write the variable names.
+* The project now includes a REST gateway in addition to the existing gRPC-Web proxy. To use it, create a descriptor set of your gRPC service and specify the services that shall be exposed. The readme has been updated with more details.
+
+### Features
+
+* add rest gateway ([ca0d7e3](https://github.com/mirkolenz/grpc-proxy/commit/ca0d7e35b0cabf3bdef85de6624bf4f8ef6f1290))
+* allow multiple access log locations ([5a3c516](https://github.com/mirkolenz/grpc-proxy/commit/5a3c5169ab46c508f01d3406b41c35a6d73b728d))
+* use lowercase parameters ([2828f38](https://github.com/mirkolenz/grpc-proxy/commit/2828f38ed0057e0605f01ca94afb4a46a6e07346))
+
+
+### Bug Fixes
+
+* improve startup logging ([b4de5dd](https://github.com/mirkolenz/grpc-proxy/commit/b4de5ddc2ca324538ac43c5f2b5b6e7e51e85949))
+* print generated envoy config on startup ([e9b50ea](https://github.com/mirkolenz/grpc-proxy/commit/e9b50ea409650c0565a337d8ff49a3cdeea8aaf1))
+* properly implement load balancing ([750721c](https://github.com/mirkolenz/grpc-proxy/commit/750721c41af0c5a9d1902b0c42dca98be7f35ed0))
+* remove unneeded spacing in generated config ([392a6a6](https://github.com/mirkolenz/grpc-proxy/commit/392a6a603526af46fda4e6e4b678a16b0ef06987))
+* silence nix lib.getExe warnings ([06edc20](https://github.com/mirkolenz/grpc-proxy/commit/06edc208d3d76f64eed93b1360396a4b50fdeb43))
+
 ## [1.0.16](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.15...v1.0.16) (2023-06-20)
 
 
