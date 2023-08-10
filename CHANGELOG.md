@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0-beta.2](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2023-08-10)
+
+
+### Bug Fixes
+
+* trigger ci build ([b4adea4](https://github.com/mirkolenz/grpc-proxy/commit/b4adea4f1627d5754b16d49ac56f725073c3d3e9))
+
 ## [3.0.0-beta.1](https://github.com/mirkolenz/grpc-proxy/compare/v2.0.0...v3.0.0-beta.1) (2023-08-10)
 
 
