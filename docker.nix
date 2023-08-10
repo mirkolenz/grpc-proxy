@@ -2,11 +2,12 @@
   lib,
   dockerTools,
   callPackage,
-  env,
+  opts,
+  app,
   ...
 }: let
-  entrypoint = callPackage ./. {
-    inherit env;
+  entrypoint = callPackage ./full.nix {
+    inherit opts app;
   };
 in
   dockerTools.buildLayeredImage {

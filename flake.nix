@@ -7,6 +7,10 @@
       url = "github:mirkolenz/flocken/v1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    gomod2nix = {
+      url = "github:nix-community/gomod2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs @ {
     self,
@@ -25,6 +29,14 @@
         self',
         ...
       }: {
+        _module.args = {
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              inputs.gomod2nix.overlays.default
+            ];
+          };
+        };
         apps = {
           dockerManifest = {
             type = "app";
@@ -35,27 +47,29 @@
               images = with self.packages; [x86_64-linux.docker aarch64-linux.docker];
             });
           };
-          default = {
-            type = "app";
-            program = lib.getExe self'.packages.default;
-          };
         };
         packages = {
-          default = pkgs.callPackage ./. {
-            env = rec {
-              proxy_host = "127.0.0.1";
-              admin_host = proxy_host;
-              backend_host = proxy_host;
-            };
+          default = pkgs.callPackage ./. {};
+          grpcProxy = self'.packages.default;
+          full = pkgs.callPackage ./full.nix {
+            app = self'.packages.default;
+            opts = {};
           };
-          grpc-proxy = self'.packages.default;
           docker = pkgs.callPackage ./docker.nix {
-            env = rec {
-              proxy_host = "0.0.0.0";
-              admin_host = proxy_host;
-              backend_host = "host.docker.internal";
+            app = self'.packages.default;
+            opts = rec {
+              proxy-host = "0.0.0.0";
+              admin-host = proxy-host;
+              backend-host = "host.docker.internal";
             };
           };
+          releaseEnv = pkgs.buildEnv {
+            name = "releaseEnv";
+            paths = with pkgs; [go goreleaser];
+          };
+        };
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [go goreleaser gomod2nix];
         };
       };
     };

@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+      - beta
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -24,7 +25,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - uses: cihelper/action-semanticrelease-generic@v1
+      - run: nix profile install .#releaseEnv
+      - uses: cihelper/action-semanticrelease-goreleaser@v1
         id: semanticrelease
       - run: nix run .#dockerManifest --impure
         if: ${{ steps.semanticrelease.outputs.released == 'true' }}
