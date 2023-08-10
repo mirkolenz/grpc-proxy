@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0-beta.1](https://github.com/mirkolenz/grpc-proxy/compare/v2.0.0...v3.0.0-beta.1) (2023-08-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* The entire application is now written in Go. This makes it possible to run the proxy with an existing envoy installation and decouples it from Nix. The tools also gained a full POSIC-compatible CLI interface with proper help for all available options. You can now easily download pre-built binaries of the proxy or use Go to install it on your machine.
+
+### Features
+
+* rewrite entire application in go ([d3a1f61](https://github.com/mirkolenz/grpc-proxy/commit/d3a1f6162de402decf5ea5f8dc2567ee4381dece))
+
 ## [2.0.0](https://github.com/mirkolenz/grpc-proxy/compare/v1.0.16...v2.0.0) (2023-08-08)
 
 
