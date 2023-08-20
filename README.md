@@ -71,7 +71,7 @@ Bear in mind that in case of using Docker, you need to mount the descriptor set 
 Afterwards, run the proxy as follows:
 
 ```shell
-grpc-proxy proxy_port=50052 backend_port=50051 --rest-proto-descriptor "./descriptor.binpb" --rest-services "package1.ServiceA,package2.ServiceB"
+grpc-proxy --proxy-port 50052 --backend-port 50051 --rest-proto-descriptor "./descriptor.binpb" --rest-services "package1.ServiceA,package2.ServiceB"
 ```
 
 ## Options and Help
