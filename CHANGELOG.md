@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0-beta.4](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-05)
+
+
+### Bug Fixes
+
+* add enum for url unescape spec ([d4a7f89](https://github.com/mirkolenz/grpc-proxy/commit/d4a7f891fe72c6ff7ba2810a9f0760de3a61b9bc))
+
 ## [3.0.0-beta.3](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-09-05)
 
 
