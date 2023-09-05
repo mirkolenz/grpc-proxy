@@ -65,10 +65,10 @@ static_resources:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
     - name: service_0
-      connect_timeout: 0.25s
-      type: STRICT_DNS
-      lb_policy: ROUND_ROBIN
-      dns_lookup_family: V4_PREFERRED
+      connect_timeout: #< .Cluster.ConnectTimeout >#s
+      type: #< .Cluster.DiscoveryType >#
+      lb_policy: #< .Cluster.LoadBalancePolicy >#
+      dns_lookup_family: #< .Cluster.DnsLookupFamily >#
       load_assignment:
         cluster_name: service_0
         endpoints:
@@ -85,4 +85,4 @@ static_resources:
           "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
           explicit_http_config:
             http2_protocol_options:
-              max_concurrent_streams: 100
+              max_concurrent_streams: #< .Cluster.MaxConcurrentStreams >#

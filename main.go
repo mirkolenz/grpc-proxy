@@ -31,6 +31,13 @@ var cli struct {
 		Host string `default:"127.0.0.1" help:"Host address of the admin interface."`
 		Port int    `optional:"" help:"Port of the admin interface."`
 	} `embed:"" prefix:"admin-" group:"Admin Options"`
+	Cluster struct {
+		DnsLookupFamily      string  `default:"V4_PREFERRED" enum:"AUTO,V4_ONLY,V6_ONLY,V4_PREFERRED,ALL" help:"The DNS IP address resolution policy."`
+		LoadBalancePolicy    string  `default:"ROUND_ROBIN" enum:"ROUND_ROBIN,LEAST_REQUEST,RANDOM,RING_HASH,MAGLEV,CLUSTER_PROVIDED" help:"The load balancer type to use when picking a host in the cluster."`
+		DiscoveryType        string  `default:"STRICT_DNS" enum:"STATIC,STRICT_DNS,LOGICAL_DNS,EDS,ORIGINAL_DST" help:"The service discovery type to use for resolving the cluster."`
+		ConnectTimeout       float64 `default:"0.25" help:"The timeout in seconds for new network connections to hosts in the cluster."`
+		MaxConcurrentStreams uint32  `default:"100" help:"Maximum concurrent streams allowed for peer on one HTTP/2 connection."`
+	} `embed:"" prefix:"cluster-" group:"Cluster Options"`
 	Rest struct {
 		Type                         string   `hidden:"" json:"@type" default:"type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder"`
 		ProtoDescriptor              string   `json:"proto_descriptor" xor:"proto_descriptor" type:"existingfile" help:"Supplies the filename of the proto descriptor set for the gRPC services."`
@@ -80,6 +87,9 @@ func main() {
 		"toJson": func(v interface{}, indent int) string {
 			b, _ := json.MarshalIndent(v, strings.Repeat(" ", indent), "  ")
 			return string(b)
+		},
+		"toUpper": func(v string) string {
+			return strings.ToUpper(strings.ReplaceAll(v, "-", "_"))
 		},
 	})
 
