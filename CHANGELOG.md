@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.0-beta.3](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2023-09-05)
+
+
+### Features
+
+* allow configuration of cluster options ([586ea6a](https://github.com/mirkolenz/grpc-proxy/commit/586ea6a798d4afe0a948a8220abb35f72a4066e6))
+* allow floating point values for timeout ([a01e30e](https://github.com/mirkolenz/grpc-proxy/commit/a01e30e22dafa235de8b19a33c580c41317c7545))
+
 ## [3.0.0-beta.2](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2023-08-10)
 
 
