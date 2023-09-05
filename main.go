@@ -19,9 +19,9 @@ var cli struct {
 	AccessLogs []string         `help:"Access log files." name:"access-log" type:"path" default:"/dev/stdout"`
 	Envoy      string           `default:"envoy" help:"Path to the envoy executable. If set to an empty string, the config will only be printed."`
 	Backend    struct {
-		Host    string `default:"127.0.0.1" help:"Host address of the backend."`
-		Ports   []int  `required:"" name:"port" help:"Port of the backend. Multiple can be provided to enable load balancing via round robin."`
-		Timeout int    `default:"120" help:"Timeout in seconds for requests sent to the backend."`
+		Host    string  `default:"127.0.0.1" help:"Host address of the backend."`
+		Ports   []int   `required:"" name:"port" help:"Port of the backend. Multiple can be provided to enable load balancing via round robin."`
+		Timeout float64 `default:"120" help:"Timeout in seconds for requests sent to the backend."`
 	} `embed:"" prefix:"backend-" group:"Backend Options"`
 	Proxy struct {
 		Host string `default:"127.0.0.1" help:"Host address of the envoy proxy."`
