@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.0.0](https://github.com/mirkolenz/grpc-proxy/compare/v2.0.0...v3.0.0) (2023-09-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* The entire application is now written in Go. This makes it possible to run the proxy with an existing envoy installation and decouples it from Nix. The tools also gained a full POSIC-compatible CLI interface with proper help for all available options. You can now easily download pre-built binaries of the proxy or use Go to install it on your machine.
+
+### Features
+
+* allow configuration of cluster options ([586ea6a](https://github.com/mirkolenz/grpc-proxy/commit/586ea6a798d4afe0a948a8220abb35f72a4066e6))
+* allow floating point values for timeout ([a01e30e](https://github.com/mirkolenz/grpc-proxy/commit/a01e30e22dafa235de8b19a33c580c41317c7545))
+* rewrite entire application in go ([d3a1f61](https://github.com/mirkolenz/grpc-proxy/commit/d3a1f6162de402decf5ea5f8dc2567ee4381dece))
+
+
+### Bug Fixes
+
+* add enum for url unescape spec ([d4a7f89](https://github.com/mirkolenz/grpc-proxy/commit/d4a7f891fe72c6ff7ba2810a9f0760de3a61b9bc))
+* trigger ci build ([b4adea4](https://github.com/mirkolenz/grpc-proxy/commit/b4adea4f1627d5754b16d49ac56f725073c3d3e9))
+
 ## [3.0.0-beta.4](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0-beta.3...v3.0.0-beta.4) (2023-09-05)
 
 
