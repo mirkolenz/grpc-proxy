@@ -105,6 +105,19 @@ Admin Options
   --admin-host="127.0.0.1"    Host address of the admin interface.
   --admin-port=INT            Port of the admin interface.
 
+Cluster Options
+  --cluster-dns-lookup-family="V4_PREFERRED"
+      The DNS IP address resolution policy.
+  --cluster-load-balance-policy="ROUND_ROBIN"
+      The load balancer type to use when picking a host in the cluster.
+  --cluster-discovery-type="STRICT_DNS"
+      The service discovery type to use for resolving the cluster.
+  --cluster-connect-timeout=0.25
+      The timeout in seconds for new network connections to hosts in the
+      cluster.
+  --cluster-max-concurrent-streams=100
+      Maximum concurrent streams allowed for peer on one HTTP/2 connection.
+
 REST Gateway Options
   --rest-proto-descriptor=STRING
                                   Supplies the filename of the proto descriptor
@@ -117,7 +130,7 @@ REST Gateway Options
                                   fully qualified service names (i.e.
                                   “package_name.service_name”) that the
                                   transcoder will translate. If the service
-                                  name doesn’t exist in proto_descriptor, Envoy
+                                  name doesn't exist in proto_descriptor, Envoy
                                   will fail at startup. The proto_descriptor may
                                   contain more services than the service names
                                   specified here, but they won’t be translated.
