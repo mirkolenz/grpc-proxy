@@ -26,6 +26,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
       - run: nix profile install .#releaseEnv
+      - run: gomod2nix
       - uses: cihelper/action-semanticrelease-goreleaser@v1
         id: semanticrelease
       - run: nix run .#dockerManifest --impure
