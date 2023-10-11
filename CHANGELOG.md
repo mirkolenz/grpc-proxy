@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0...v3.0.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* bump kong to v0.8.1 ([795d8a6](https://github.com/mirkolenz/grpc-proxy/commit/795d8a6b468f77d310e652c92258b518600313c9))
+
 ## [3.0.0](https://github.com/mirkolenz/grpc-proxy/compare/v2.0.0...v3.0.0) (2023-09-30)
 
 
