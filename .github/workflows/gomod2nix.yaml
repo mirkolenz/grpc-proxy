@@ -1,0 +1,16 @@
+on:
+  pull_request:
+jobs:
+  gomod2nix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fregante/setup-git-user@v2
+      - uses: DeterminateSystems/nix-installer-action@v6
+      - run: |
+          nix run .#gomod2nix
+          git add gomod2nix.toml
+          git commit -m chore(deps): update gomod2nix
+          git push

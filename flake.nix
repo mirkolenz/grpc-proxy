@@ -65,11 +65,15 @@
           };
           releaseEnv = pkgs.buildEnv {
             name = "releaseEnv";
-            paths = with pkgs; [go goreleaser gomod2nix];
+            paths = with pkgs; [go goreleaser];
           };
+          gomod2nix = pkgs.gomod2nix;
         };
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [go goreleaser gomod2nix];
+          packages = with pkgs; [go goreleaser];
+          shellHook = ''
+            ${lib.getExe pkgs.gomod2nix}
+          '';
         };
       };
     };
