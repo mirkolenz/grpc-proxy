@@ -1,5 +1,6 @@
+repos:
 - repo: https://github.com/lietu/go-pre-commit
-  rev: master
+  rev: v0.0.1
   hooks:
     - id: go-fmt-goimports
     - id: go-test
