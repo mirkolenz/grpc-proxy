@@ -71,9 +71,6 @@
         };
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [go goreleaser];
-          shellHook = ''
-            ${lib.getExe pkgs.gomod2nix}
-          '';
         };
       };
     };

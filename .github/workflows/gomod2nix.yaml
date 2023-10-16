@@ -12,5 +12,5 @@ jobs:
       - run: |
           nix run .#gomod2nix
           git add gomod2nix.toml
-          git commit -m chore(deps): update gomod2nix
+          git commit -m "chore(deps): update gomod2nix"
           git push
