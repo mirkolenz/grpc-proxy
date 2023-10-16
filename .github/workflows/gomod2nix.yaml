@@ -10,8 +10,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: fregante/setup-git-user@v2
       - uses: DeterminateSystems/nix-installer-action@v6
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - run: |
           nix run .#gomod2nix
-          git add gomod2nix.toml
-          git commit -m "chore(deps): update gomod2nix"
-          git push
+          if [ -n "$(git status --porcelain)" ]; then
+            git add gomod2nix.toml
+            git commit -m "chore(deps): update gomod2nix"
+            git push
+          fi
