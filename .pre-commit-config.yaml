@@ -1,0 +1,7 @@
+- repo: https://github.com/lietu/go-pre-commit
+  rev: master
+  hooks:
+    - id: go-fmt-goimports
+    - id: go-test
+    - id: go-vet
+    - id: go-mod-tidy
