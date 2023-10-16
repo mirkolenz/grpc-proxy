@@ -25,11 +25,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - run: |
-          nix run .#gomod2nix
-          git add gomod2nix.toml
-          git commit -m "chore(deps): update gomod2nix"
-          git push
+      - run: nix run .#gomod2nix
       - run: nix profile install .#releaseEnv
       - uses: cihelper/action-semanticrelease-goreleaser@v1
         id: semanticrelease

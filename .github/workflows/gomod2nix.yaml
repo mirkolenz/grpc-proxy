@@ -1,5 +1,6 @@
 on:
   pull_request:
+  push:
 jobs:
   gomod2nix:
     runs-on: ubuntu-latest
