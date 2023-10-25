@@ -53,18 +53,8 @@
         packages = {
           default = pkgs.callPackage ./. {};
           grpcProxy = self'.packages.default;
-          full = pkgs.callPackage ./full.nix {
-            app = self'.packages.default;
-            opts = {};
-          };
-          docker = pkgs.callPackage ./docker.nix {
-            app = self'.packages.default;
-            opts = rec {
-              proxy-host = "0.0.0.0";
-              admin-host = proxy-host;
-              backend-host = "host.docker.internal";
-            };
-          };
+          full = pkgs.callPackage ./full.nix {};
+          docker = pkgs.callPackage ./docker.nix {};
           releaseEnv = pkgs.buildEnv {
             name = "releaseEnv";
             paths = with pkgs; [go goreleaser gomod2nix];

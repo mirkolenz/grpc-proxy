@@ -2,12 +2,17 @@
   lib,
   dockerTools,
   callPackage,
-  opts,
-  app,
-  ...
+  package ? ./full.nix,
+  flags ? {},
 }: let
-  entrypoint = callPackage ./full.nix {
-    inherit opts app;
+  entrypoint = callPackage package {
+    flags =
+      {
+        proxy-host = "0.0.0.0";
+        admin-host = "0.0.0.0";
+        backend-host = "host.docker.internal";
+      }
+      // flags;
   };
 in
   dockerTools.buildLayeredImage {
