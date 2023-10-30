@@ -37,19 +37,6 @@
             ];
           };
         };
-        apps = {
-          dockerManifest = {
-            type = "app";
-            program = lib.getExe (flocken.legacyPackages.${system}.mkDockerManifest {
-              github = {
-                enable = true;
-                token = builtins.getEnv "GH_TOKEN";
-              };
-              version = builtins.getEnv "VERSION";
-              images = with self.packages; [x86_64-linux.docker aarch64-linux.docker];
-            });
-          };
-        };
         packages = {
           default = pkgs.callPackage ./. {};
           grpcProxy = self'.packages.default;
@@ -60,6 +47,14 @@
             paths = with pkgs; [go goreleaser gomod2nix];
           };
           gomod2nix = pkgs.gomod2nix;
+        };
+        legacyPackages.dockerManifest = flocken.legacyPackages.${system}.mkDockerManifest {
+          github = {
+            enable = true;
+            token = builtins.getEnv "GH_TOKEN";
+          };
+          version = builtins.getEnv "VERSION";
+          images = with self.packages; [x86_64-linux.docker aarch64-linux.docker];
         };
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [go goreleaser];
