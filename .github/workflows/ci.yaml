@@ -1,17 +1,42 @@
 on:
+  pull_request:
   push:
     branches:
       - main
       - beta
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      git-head: ${{ steps.git-head.outputs.git-head }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fregante/setup-git-user@v2
+      - uses: DeterminateSystems/nix-installer-action@v6
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
+      - run: |
+          nix run .#gomod2nix
+          if [ -n "$(git status --porcelain)" ]; then
+            git add gomod2nix.toml
+            git commit -m "chore(deps): update gomod2nix"
+          fi
+      - run: nix flake check
+      - run: git push
+      - run: echo "git-head=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        id: git-head
   release:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
+    needs: check
     permissions:
       contents: write
       packages: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.check.outputs.git-head }}
       - uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
@@ -21,7 +46,6 @@ jobs:
             extra-platforms = aarch64-linux
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - run: nix profile install .#releaseEnv
-      - run: gomod2nix
       - uses: cihelper/action-semanticrelease-goreleaser@v1
         id: semanticrelease
       - run: nix run .#dockerManifest --impure
