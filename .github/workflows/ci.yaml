@@ -11,7 +11,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v9
+      - uses: DeterminateSystems/nix-installer-action@v10
       - uses: DeterminateSystems/magic-nix-cache-action@v4
       - run: nix flake check
   gomod2nix:
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: fregante/setup-git-user@v2
-      - uses: DeterminateSystems/nix-installer-action@v9
+      - uses: DeterminateSystems/nix-installer-action@v10
       - uses: DeterminateSystems/magic-nix-cache-action@v4
       - run: |
           nix run .#gomod2nix
@@ -49,7 +49,7 @@ jobs:
       - uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
-      - uses: DeterminateSystems/nix-installer-action@v9
+      - uses: DeterminateSystems/nix-installer-action@v10
         with:
           extra-conf: |
             extra-platforms = aarch64-linux
