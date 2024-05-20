@@ -42,8 +42,8 @@
             grpcProxy = self'.packages.default;
             full = pkgs.callPackage ./full.nix { };
             docker = pkgs.callPackage ./docker.nix { };
-            releaseEnv = pkgs.buildEnv {
-              name = "releaseEnv";
+            release-env = pkgs.buildEnv {
+              name = "release-env";
               paths = with pkgs; [
                 go
                 goreleaser
