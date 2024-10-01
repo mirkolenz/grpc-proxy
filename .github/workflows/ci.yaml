@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v14
       - uses: DeterminateSystems/magic-nix-cache-action@v8
-      - run: nix flake check
+      - run: nix flake check --show-trace
   gomod2nix:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
