@@ -53,7 +53,7 @@
           };
           packages = {
             default = pkgs.callPackage ./. { };
-            grpcProxy = self'.packages.default;
+            grpc-proxy = config.packages.default;
             full = pkgs.callPackage ./full.nix { };
             docker = pkgs.callPackage ./docker.nix { };
             release-env = pkgs.buildEnv {
