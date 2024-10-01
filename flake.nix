@@ -51,6 +51,9 @@
             # golangci-lint.enable = true;
             nixfmt-rfc-style.enable = true;
           };
+          checks = {
+            inherit (config.packages) grpc-proxy;
+          };
           packages = {
             default = pkgs.callPackage ./. { };
             grpc-proxy = config.packages.default;
