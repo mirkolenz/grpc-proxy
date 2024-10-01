@@ -1,4 +1,4 @@
-{buildGoApplication}:
+{ buildGoApplication }:
 buildGoApplication {
   name = "grpc-proxy";
   pwd = ./.;
