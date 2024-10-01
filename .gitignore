@@ -36,7 +36,8 @@ go.work
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -87,5 +88,6 @@ Temporary Items
 /result
 *.binpb
 *.txtpb
+/.pre-commit-config.yaml
 
 dist/

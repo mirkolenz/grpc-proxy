@@ -11,6 +11,10 @@
       url = "github:nix-community/gomod2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
@@ -23,11 +27,14 @@
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import systems;
+      imports = [
+        inputs.git-hooks.flakeModule
+      ];
       perSystem =
         {
           pkgs,
           system,
-          self',
+          config,
           ...
         }:
         {
@@ -36,6 +43,13 @@
               inherit system;
               overlays = [ inputs.gomod2nix.overlays.default ];
             };
+          };
+          pre-commit.settings.hooks = {
+            gofmt.enable = true;
+            gotest.enable = true;
+            # https://github.com/cachix/git-hooks.nix/issues/464
+            # golangci-lint.enable = true;
+            nixfmt-rfc-style.enable = true;
           };
           packages = {
             default = pkgs.callPackage ./. { };
@@ -64,6 +78,9 @@
             ];
           };
           devShells.default = pkgs.mkShell {
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            '';
             packages = with pkgs; [
               go
               goreleaser
