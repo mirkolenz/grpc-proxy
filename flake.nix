@@ -11,8 +11,8 @@
       url = "github:nix-community/gomod2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -28,7 +28,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import systems;
       imports = [
-        inputs.git-hooks.flakeModule
+        inputs.treefmt-nix.flakeModule
       ];
       perSystem =
         {
@@ -44,12 +44,12 @@
               overlays = [ inputs.gomod2nix.overlays.default ];
             };
           };
-          pre-commit.settings.hooks = {
-            gofmt.enable = true;
-            gotest.enable = true;
-            # https://github.com/cachix/git-hooks.nix/issues/464
-            # golangci-lint.enable = true;
-            nixfmt-rfc-style.enable = true;
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              gofmt.enable = true;
+              nixfmt.enable = true;
+            };
           };
           checks = {
             inherit (config.packages) grpc-proxy;
@@ -81,12 +81,10 @@
             ];
           };
           devShells.default = pkgs.mkShell {
-            shellHook = ''
-              ${config.pre-commit.installationScript}
-            '';
             packages = with pkgs; [
               go
               goreleaser
+              config.treefmt.build.wrapper
             ];
           };
         };
