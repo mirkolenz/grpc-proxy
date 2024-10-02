@@ -18,23 +18,18 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
     outputs:
-      git-head: ${{ steps.git-head.outputs.git-head }}
+      git-head: ${{ steps.git-push.outputs.head-sha }}
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: fregante/setup-git-user@v2
       - uses: DeterminateSystems/nix-installer-action@v14
       - uses: DeterminateSystems/magic-nix-cache-action@v8
-      - run: |
-          nix run .#gomod2nix
-          if [ -n "$(git status --porcelain)" ]; then
-            git add gomod2nix.toml
-            git commit -m "chore(deps): update gomod2nix"
-            git push
-          fi
-      - run: echo "git-head=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-        id: git-head
+      - run: nix run .#gomod2nix
+      - uses: cihelper/action-git-push@v1
+        id: git-push
+        with:
+          commit-message: "chore(deps): update gomod2nix"
   release:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
