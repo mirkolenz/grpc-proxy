@@ -16,9 +16,9 @@ jobs:
       - run: nix flake check --show-trace
   gomod2nix:
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' }}
     outputs:
-      git-head: ${{ steps.git-push.outputs.head-sha }}
+      git-head: ${{ steps.commit.outputs.commit_hash || github.sha }}
     permissions:
       contents: write
     steps:
@@ -26,13 +26,13 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v14
       - uses: DeterminateSystems/magic-nix-cache-action@v8
       - run: nix run .#gomod2nix
-      - uses: cihelper/action-git-push@v1
-        id: git-push
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        id: commit
         with:
-          commit-message: "chore(deps): update gomod2nix"
+          commit_message: "chore(deps): update gomod2nix"
   release:
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' }}
     needs: [check, gomod2nix]
     permissions:
       contents: write
