@@ -32,7 +32,7 @@ jobs:
           commit_message: "chore(deps): update gomod2nix"
   release:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.repository_owner == 'mirkolenz' && github.event_name == 'push' }}
     needs: [check, gomod2nix]
     permissions:
       contents: write
