@@ -84,6 +84,7 @@
             packages = with pkgs; [
               go
               goreleaser
+              gomod2nix
               config.treefmt.build.wrapper
             ];
           };
