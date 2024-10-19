@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.1...v3.0.2) (2024-10-19)
+
+
+### Bug Fixes
+
+* **envoy:** check for proto descriptor file and bin ([f51da6b](https://github.com/mirkolenz/grpc-proxy/commit/f51da6b5ee879bb4571632d6430747593cfef0e5))
+
 ## [3.0.1](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.0...v3.0.1) (2023-10-11)
 
 
