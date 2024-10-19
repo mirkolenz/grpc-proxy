@@ -56,7 +56,7 @@ static_resources:
                   - name: envoy.filters.http.grpc_web
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
-                  #<- if and .Rest.Services .Rest.ProtoDescriptor >#
+                  #<- if and .Rest.Services .Rest.ProtoDescriptorBin >#
                   - name: envoy.filters.http.grpc_json_transcoder
                     typed_config: #< toJson .Rest 20 >#
                   #<- end >#
