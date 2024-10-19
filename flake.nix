@@ -52,7 +52,8 @@
             };
           };
           checks = {
-            inherit (config.packages) grpc-proxy;
+            inherit (config.packages) grpc-proxy grpc-proxy-full;
+            docker = config.packages.docker.passthru.stream;
           };
           packages = {
             default = config.packages.grpc-proxy;
