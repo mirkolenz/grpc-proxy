@@ -1,12 +1,11 @@
 {
   lib,
   dockerTools,
-  callPackage,
-  package ? ./full.nix,
+  grpc-proxy-full,
   flags ? { },
 }:
 let
-  entrypoint = callPackage package {
+  entrypoint = grpc-proxy-full.override {
     flags = {
       proxy-host = "0.0.0.0";
       admin-host = "0.0.0.0";

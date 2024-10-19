@@ -55,10 +55,10 @@
             inherit (config.packages) grpc-proxy;
           };
           packages = {
-            default = pkgs.callPackage ./. { };
-            grpc-proxy = config.packages.default;
-            full = pkgs.callPackage ./full.nix { };
-            docker = pkgs.callPackage ./docker.nix { };
+            default = config.packages.grpc-proxy;
+            grpc-proxy = pkgs.callPackage ./. { };
+            grpc-proxy-full = pkgs.callPackage ./full.nix { inherit (config.packages) grpc-proxy; };
+            docker = pkgs.callPackage ./docker.nix { inherit (config.packages) grpc-proxy-full; };
             release-env = pkgs.buildEnv {
               name = "release-env";
               paths = with pkgs; [

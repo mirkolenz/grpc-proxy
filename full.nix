@@ -1,19 +1,18 @@
 {
   lib,
-  callPackage,
   writeShellApplication,
   envoy,
+  grpc-proxy,
   flags ? { },
 }:
 let
-  app = callPackage ./. { };
-  _flags = lib.mapAttrsToList (key: val: ''--${key} "${val}"'') flags;
+  mkCliOptions = lib.cli.toGNUCommandLineShell { };
 in
 writeShellApplication {
   name = "grpc-proxy-full";
   text = ''
-    ${lib.getBin app}/bin/grpc-proxy \
-      ${builtins.toString _flags} \
+    ${lib.getExe grpc-proxy} \
+      ${mkCliOptions flags} \
       "$@" \
       --envoy "${lib.getBin envoy}/bin/envoy"
   '';
