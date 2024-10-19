@@ -2,5 +2,5 @@ schema = 3
 
 [mod]
   [mod."github.com/alecthomas/kong"]
-    version = "v1.0.0"
-    hash = "sha256-M14hLzs7kn2XWV7+6Aot2cYP8xjmYnhlL9nK6vlJ/dU="
+    version = "v1.2.1"
+    hash = "sha256-khU0G4vpNuzSdw0FnOTWeCCGu1FWn7ZNn0kFrWBPQJ8="
