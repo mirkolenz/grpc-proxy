@@ -1,27 +1,28 @@
 {
   lib,
   dockerTools,
+  cacert,
+  tzdata,
   grpc-proxy-full,
-  flags ? { },
 }:
 let
-  entrypoint = grpc-proxy-full.override {
-    flags = {
-      proxy-host = "0.0.0.0";
-      admin-host = "0.0.0.0";
-      backend-host = "host.docker.internal";
-    } // flags;
+  mkCliOptions = lib.cli.toGNUCommandLine { };
+  defaultOptions = mkCliOptions {
+    proxy-host = "0.0.0.0";
+    admin-host = "0.0.0.0";
+    backend-host = "host.docker.internal";
   };
 in
 dockerTools.buildLayeredImage {
   name = "grpc-proxy";
   tag = "latest";
   created = "now";
+  contents = [
+    cacert
+    tzdata
+  ];
   extraCommands = ''
-    mkdir -p tmp
+    mkdir -m 1777 tmp
   '';
-  config = {
-    entrypoint = [ (lib.getExe entrypoint) ];
-    cmd = [ ];
-  };
+  config.Entrypoint = [ (lib.getExe grpc-proxy-full) ] ++ defaultOptions;
 }

@@ -1,19 +1,16 @@
 {
   lib,
-  writeShellApplication,
   envoy,
   grpc-proxy,
-  flags ? { },
+  makeWrapper,
 }:
-let
-  mkCliOptions = lib.cli.toGNUCommandLineShell { };
-in
-writeShellApplication {
-  name = "grpc-proxy-full";
-  text = ''
-    ${lib.getExe grpc-proxy} \
-      ${mkCliOptions flags} \
-      "$@" \
-      --envoy "${lib.getBin envoy}/bin/envoy"
+grpc-proxy.overrideAttrs (old: {
+  nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ makeWrapper ];
+  postInstall = ''
+    wrapProgram $out/bin/grpc-proxy \
+      --add-flags "--envoy ${lib.getExe envoy}"
   '';
-}
+  meta = old.meta // {
+    platforms = lib.platforms.linux;
+  };
+})
