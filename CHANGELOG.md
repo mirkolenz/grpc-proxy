@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.2...v3.0.3) (2024-10-20)
+
+
+### Bug Fixes
+
+* **rest:** update cli flag names of array params ([5b98dca](https://github.com/mirkolenz/grpc-proxy/commit/5b98dcaee10d0bbb0f4ecca3c100dc460b02c2a3))
+
 ## [3.0.2](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.1...v3.0.2) (2024-10-19)
 
 
