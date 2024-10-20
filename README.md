@@ -79,7 +79,7 @@ grpc-proxy --proxy-port 50052 --backend-port 50051 --rest-proto-descriptor "./de
 <!-- echo -e "\n```txt\n$(COLUMNS=80 go run . --help)\n```" >> README.md -->
 
 ```txt
-Usage: grpc-proxy --backend-port=BACKEND-PORT,... --proxy-port=INT
+Usage: grpc-proxy --backend-port=BACKEND-PORT,... --proxy-port=INT [flags]
 
 Flags:
   -h, --help             Show context-sensitive help.
@@ -125,7 +125,7 @@ REST Gateway Options
   --rest-proto-descriptor-bin=STRING
                                   Supplies the binary content of the proto
                                   descriptor set for the gRPC services.
-  --rest-service=REST-SERVICE,...
+  --rest-services=REST-SERVICES,...
                                   A list of strings that supplies the
                                   fully qualified service names (i.e.
                                   “package_name.service_name”) that the
@@ -198,7 +198,7 @@ REST Gateway Options
                                   parameters and do not know them beforehand.
                                   Otherwise use ignored_query_parameters.
                                   Defaults to false.
-  --rest-ignored-query-parameter=REST-IGNORED-QUERY-PARAMETER,...
+  --rest-ignored-query-parameters=REST-IGNORED-QUERY-PARAMETERS,...
                                   A list of query parameters to be ignored
                                   for transcoding method mapping. By default,
                                   the transcoder filter will not transcode a
