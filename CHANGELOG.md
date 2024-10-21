@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.5](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.4...v3.0.5) (2024-10-21)
+
+
+### Bug Fixes
+
+* **docker:** add grpc-proxy and envoy to image contents ([b1a8810](https://github.com/mirkolenz/grpc-proxy/commit/b1a8810362b7e4ea3a28f2e49c1535d424b74d7b))
+
 ## [3.0.4](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.3...v3.0.4) (2024-10-21)
 
 
