@@ -4,6 +4,7 @@
   cacert,
   tzdata,
   grpc-proxy-full,
+  envoy,
 }:
 let
   mkCliOptions = lib.cli.toGNUCommandLine { };
@@ -20,6 +21,8 @@ dockerTools.buildLayeredImage {
   contents = [
     cacert
     tzdata
+    grpc-proxy-full
+    envoy
   ];
   extraCommands = ''
     mkdir -m 1777 tmp
