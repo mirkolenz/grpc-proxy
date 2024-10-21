@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.4](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.3...v3.0.4) (2024-10-21)
+
+
+### Bug Fixes
+
+* **rest:** remove empty proto descriptor flags, otherwise envoy fails ([2cd4593](https://github.com/mirkolenz/grpc-proxy/commit/2cd45935122f2c7e355660ef0579172a4f3f371d))
+
 ## [3.0.3](https://github.com/mirkolenz/grpc-proxy/compare/v3.0.2...v3.0.3) (2024-10-20)
 
 
