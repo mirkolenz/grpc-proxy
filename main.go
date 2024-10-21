@@ -86,7 +86,13 @@ func main() {
 	tmpl := template.New("envoy.yaml").Delims("#<", ">#").Funcs(template.FuncMap{
 		"toJson": func(v interface{}, indent int) string {
 			b, _ := json.MarshalIndent(v, strings.Repeat(" ", indent), "  ")
-			return string(b)
+			s := string(b)
+
+			// envoy requires that only one of them is set, so we remove the empty one
+			s = strings.ReplaceAll(s, `"proto_descriptor": "",`, "")
+			s = strings.ReplaceAll(s, `"proto_descriptor_bin": "",`, "")
+
+			return s
 		},
 		"toUpper": func(v string) string {
 			return strings.ToUpper(strings.ReplaceAll(v, "-", "_"))
