@@ -11,6 +11,6 @@ grpc-proxy.overrideAttrs (old: {
       --prefix PATH : ${lib.makeBinPath [ envoy ]}
   '';
   meta = old.meta // {
-    platforms = lib.platforms.linux;
+    platforms = lib.intersectLists old.meta.platforms envoy.meta.platforms;
   };
 })
