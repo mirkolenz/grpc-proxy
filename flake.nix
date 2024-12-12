@@ -79,7 +79,7 @@
               grpc-proxy-full = pkgs.callPackage ./full.nix { inherit (config.packages) grpc-proxy; };
               docker = pkgs.callPackage ./docker.nix { inherit (config.packages) grpc-proxy-full; };
             };
-          apps.docker-manifest.program = flocken.legacyPackages.${system}.mkDockerManifest {
+          legacyPackages.docker-manifest = flocken.legacyPackages.${system}.mkDockerManifest {
             github = {
               enable = true;
               token = "$GH_TOKEN";
