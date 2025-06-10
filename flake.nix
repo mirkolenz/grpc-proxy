@@ -16,6 +16,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+  nixConfig = {
+    extra-substituters = [
+      "https://mirkolenz.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "mirkolenz.cachix.org-1:R0dgCJ93t33K/gncNbKgUdJzwgsYVXeExRsZNz5jpho="
+    ];
+  };
   outputs =
     inputs@{
       self,
@@ -63,7 +71,7 @@
           packages =
             {
               default = config.packages.grpc-proxy;
-              grpc-proxy = pkgs.callPackage ./. { };
+              grpc-proxy = pkgs.callPackage ./default.nix { };
               release-env = pkgs.buildEnv {
                 name = "release-env";
                 paths = with pkgs; [
