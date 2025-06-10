@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v17
-      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - uses: DeterminateSystems/magic-nix-cache-action@v10
       - run: nix flake check --show-trace
   gomod2nix:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v17
-      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - uses: DeterminateSystems/magic-nix-cache-action@v10
       - run: nix run .#gomod2nix
       - uses: stefanzweifel/git-auto-commit-action@v5
         id: commit
@@ -48,7 +48,7 @@ jobs:
         with:
           extra-conf: |
             extra-platforms = aarch64-linux
-      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - uses: DeterminateSystems/magic-nix-cache-action@v10
       - run: nix profile install .#release-env
       - run: gomod2nix
       - uses: cihelper/action-semanticrelease-goreleaser@v1
