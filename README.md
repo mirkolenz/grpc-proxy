@@ -82,12 +82,11 @@ grpc-proxy --proxy-port 50052 --backend-port 50051 --rest-proto-descriptor "./de
 Usage: grpc-proxy --backend-port=BACKEND-PORT,... --proxy-port=INT [flags]
 
 Flags:
-  -h, --help             Show context-sensitive help.
-      --version          Print version information.
-      --access-log=/dev/stdout,...
-                         Access log files.
-      --envoy="envoy"    Path to the envoy executable. If set to an empty
-                         string, the config will only be printed.
+  -h, --help                      Show context-sensitive help.
+      --version                   Print version information.
+      --access-log=/dev/stdout    Access log files.
+      --envoy="envoy"             Path to the envoy executable. If set to an
+                                  empty string, the config will only be printed.
 
 Backend Options
   --backend-host="127.0.0.1"    Host address of the backend.
