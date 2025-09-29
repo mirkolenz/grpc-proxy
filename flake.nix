@@ -60,33 +60,31 @@
               nixfmt.enable = true;
             };
           };
-          checks =
-            {
-              inherit (config.packages) grpc-proxy;
-            }
-            // lib.optionalAttrs (lib.elem system lib.platforms.linux) {
-              inherit (config.packages) grpc-proxy-full;
-              docker = config.packages.docker.passthru.stream;
+          checks = {
+            inherit (config.packages) grpc-proxy;
+          }
+          // lib.optionalAttrs (lib.elem system lib.platforms.linux) {
+            inherit (config.packages) grpc-proxy-full;
+            docker = config.packages.docker.passthru.stream;
+          };
+          packages = {
+            default = config.packages.grpc-proxy;
+            grpc-proxy = pkgs.callPackage ./default.nix { };
+            release-env = pkgs.buildEnv {
+              name = "release-env";
+              paths = with pkgs; [
+                go
+                goreleaser
+                gomod2nix
+              ];
             };
-          packages =
-            {
-              default = config.packages.grpc-proxy;
-              grpc-proxy = pkgs.callPackage ./default.nix { };
-              release-env = pkgs.buildEnv {
-                name = "release-env";
-                paths = with pkgs; [
-                  go
-                  goreleaser
-                  gomod2nix
-                ];
-              };
-              gomod2nix = pkgs.gomod2nix;
-            }
-            // lib.optionalAttrs (lib.elem system lib.platforms.linux) {
-              full = config.packages.grpc-proxy-full;
-              grpc-proxy-full = pkgs.callPackage ./full.nix { inherit (config.packages) grpc-proxy; };
-              docker = pkgs.callPackage ./docker.nix { inherit (config.packages) grpc-proxy-full; };
-            };
+            gomod2nix = pkgs.gomod2nix;
+          }
+          // lib.optionalAttrs (lib.elem system lib.platforms.linux) {
+            full = config.packages.grpc-proxy-full;
+            grpc-proxy-full = pkgs.callPackage ./full.nix { inherit (config.packages) grpc-proxy; };
+            docker = pkgs.callPackage ./docker.nix { inherit (config.packages) grpc-proxy-full; };
+          };
           legacyPackages.docker-manifest = flocken.legacyPackages.${system}.mkDockerManifest {
             github = {
               enable = true;
