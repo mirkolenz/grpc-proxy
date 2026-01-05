@@ -1,9 +1,4 @@
-{
-  lib,
-  envoy,
-  grpc-proxy,
-  makeBinaryWrapper,
-}:
+{ lib, envoy, grpc-proxy, makeBinaryWrapper, }:
 grpc-proxy.overrideAttrs (old: {
   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ makeBinaryWrapper ];
   postInstall = ''
