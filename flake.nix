@@ -73,6 +73,7 @@
             docker = config.packages.docker.passthru.stream;
           };
           packages = {
+            inherit (pkgs) gomod2nix envoy;
             default = config.packages.grpc-proxy;
             grpc-proxy = pkgs.callPackage ./default.nix { };
             release-env = pkgs.buildEnv {
@@ -83,7 +84,6 @@
                 gomod2nix
               ];
             };
-            gomod2nix = pkgs.gomod2nix;
           }
           // lib.optionalAttrs (lib.elem system lib.platforms.linux) {
             full = config.packages.grpc-proxy-full;
