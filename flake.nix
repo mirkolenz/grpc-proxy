@@ -1,6 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
     flocken = {
@@ -42,11 +43,19 @@
           lib,
           ...
         }:
+        let
+          pkgs2505 = import inputs.nixpkgs-2505 { inherit system; };
+        in
         {
           _module.args = {
             pkgs = import nixpkgs {
               inherit system;
-              overlays = [ inputs.gomod2nix.overlays.default ];
+              overlays = [
+                inputs.gomod2nix.overlays.default
+                (final: prev: {
+                  inherit (pkgs2505) envoy;
+                })
+              ];
             };
           };
           treefmt = {
