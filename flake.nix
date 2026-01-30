@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
     flocken = {
@@ -43,9 +42,6 @@
           lib,
           ...
         }:
-        let
-          pkgs2505 = import inputs.nixpkgs-2505 { inherit system; };
-        in
         {
           _module.args = {
             pkgs = import nixpkgs {
@@ -53,7 +49,7 @@
               overlays = [
                 inputs.gomod2nix.overlays.default
                 (final: prev: {
-                  inherit (pkgs2505) envoy;
+                  envoy = prev.envoy-bin;
                 })
               ];
             };
@@ -73,7 +69,7 @@
             docker = config.packages.docker.passthru.stream;
           };
           packages = {
-            inherit (pkgs) gomod2nix envoy;
+            inherit (pkgs) gomod2nix envoy-bin;
             default = config.packages.grpc-proxy;
             grpc-proxy = pkgs.callPackage ./default.nix { };
             release-env = pkgs.buildEnv {
