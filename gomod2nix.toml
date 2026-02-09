@@ -1,6 +1,6 @@
 schema = 3
 
 [mod]
-  [mod."github.com/alecthomas/kong"]
-    version = "v1.12.1"
-    hash = "sha256-bPrse7u0gBflbgd0+8FFlsnJEPDoTVZJkg0ZnXboeCk="
+  [mod.'github.com/alecthomas/kong']
+    version = 'v1.12.1'
+    hash = 'sha256-bPrse7u0gBflbgd0+8FFlsnJEPDoTVZJkg0ZnXboeCk='
